@@ -4,6 +4,8 @@ import {Hero} from './hero';
 @Component({
   selector: 'my-app',
     template: `
+    <input type="text" #tbx (keyup.enter)="tbxKeyUp($event)" /> - {{tbx.value}} <button  (click)="addHero(tbx.value)">Add</button> <br/> 
+    <button #btn (click) = "stopAdding($event)">Stop Exec</button>
     <h1>{{title}}</h1>
     <h2>My favorite hero is: {{myHero.name}}</h2>
     <p>Heroes:</p>
@@ -27,9 +29,23 @@ heroesDb = [
     ngOnInit(){
         let i = 0;
         this.heroes.push(new Hero(1,'Windstorm'));
-        setInterval(()=>{
+        this.intvl = setInterval(()=>{
             i++;
-            this.heroes.push(this.heroesDb[i%3]);
+            this.heroes.push(this.heroesDb[i%this.heroesDb.length]);
         },2000);
+    }
+
+    stopAdding($event){
+      debugger;
+      clearInterval(this.intvl);
+    }
+
+    tbxKeyUp(evt){
+      debugger;
+    }
+
+    addHero(hero){
+        debugger;
+        this.heroesDb.push(new Hero(Math.round(Math.random()*100), hero));
     }
 }
